@@ -1,0 +1,23 @@
+name: Security Scan
+
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  security:
+    uses: brettmc1/github-actions/.github/workflows/security-scan.yml@main
+    with:
+      runner: homelab
+      run_kustomize: true
+      kustomize_paths: overlays
+      run_trivy_images: true
+      trivy_images: |
+        lscr.io/linuxserver/sabnzbd:latest
+      run_snyk_iac: false
+      run_snyk_code: false
+      run_sonar: false
+    secrets: inherit
