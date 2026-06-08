@@ -23,6 +23,9 @@ spec:
               value: "1000"
             - name: TZ
               value: Australia/Brisbane
+          envFrom:
+            - secretRef:
+                name: sabnzbd-news-server
           ports:
             - name: http
               containerPort: 8080
