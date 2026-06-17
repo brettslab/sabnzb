@@ -4,6 +4,7 @@ kind: Kustomization
 resources:
   - externalsecret-news-server.yaml
   - pvc.yaml
+  - pvc-incomplete.yaml
   - deployment.yaml
   - service.yaml
 

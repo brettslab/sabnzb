@@ -14,6 +14,13 @@ spec:
       labels:
         app: sabnzbd
     spec:
+      initContainers:
+        - name: prepare-incomplete
+          image: busybox:1.36
+          command: ["sh", "-c", "chown -R 1000:3000 /data/downloads/incomplete && chmod -R u+rwX,g+rwX /data/downloads/incomplete"]
+          volumeMounts:
+            - name: incomplete
+              mountPath: /data/downloads/incomplete
       containers:
         - name: sabnzbd
           image: lscr.io/linuxserver/sabnzbd:latest
@@ -22,7 +29,7 @@ spec:
             - name: PUID
               value: "1000"
             - name: PGID
-              value: "1000"
+              value: "3000"
             - name: TZ
               value: Australia/Brisbane
           envFrom:
@@ -30,11 +37,21 @@ spec:
                 name: sabnzbd-news-server
           ports:
             - name: http
-              containerPort: 8080
+              containerPort: 30055
           volumeMounts:
             - name: config
               mountPath: /config
+            - name: downloads
+              mountPath: /data/downloads
+            - name: incomplete
+              mountPath: /data/downloads/incomplete
       volumes:
         - name: config
           persistentVolumeClaim:
             claimName: sabnzbd-config
+        - name: downloads
+          persistentVolumeClaim:
+            claimName: media-downloads
+        - name: incomplete
+          persistentVolumeClaim:
+            claimName: sabnzbd-incomplete
