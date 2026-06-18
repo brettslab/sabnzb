@@ -7,7 +7,7 @@ SABnzbd is deployed through the `overlays` Kustomize overlay.
 The production overlay exposes SABnzbd through MetalLB:
 
 ```text
-http://192.168.50.211:8080
+http://192.168.50.211/
 ```
 
 ## Storage
