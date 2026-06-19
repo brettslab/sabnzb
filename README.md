@@ -24,3 +24,12 @@ Vault path:
 ```text
 kv/media/sabnzbd/news-server
 ```
+
+## VPN Sidecar
+
+SABnzbd runs with a Gluetun sidecar in the same pod so outbound traffic uses the
+Windscribe WireGuard tunnel. The sidecar reads credentials from Vault path:
+
+```text
+kv/vpn/gluetun/windscribe
+```

@@ -22,6 +22,44 @@ spec:
             - name: incomplete
               mountPath: /data/downloads/incomplete
       containers:
+        - name: gluetun
+          image: ghcr.io/qdm12/gluetun:v3
+          imagePullPolicy: IfNotPresent
+          securityContext:
+            capabilities:
+              add:
+                - NET_ADMIN
+          envFrom:
+            - configMapRef:
+                name: sabnzbd-gluetun-config
+            - secretRef:
+                name: sabnzbd-gluetun-windscribe
+          ports:
+            - name: vpn-control
+              containerPort: 8000
+              protocol: TCP
+            - name: vpn-health
+              containerPort: 9999
+              protocol: TCP
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: vpn-health
+            initialDelaySeconds: 15
+            periodSeconds: 30
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: vpn-health
+            initialDelaySeconds: 30
+            periodSeconds: 30
+          resources:
+            requests:
+              cpu: 50m
+              memory: 128Mi
+            limits:
+              cpu: 500m
+              memory: 512Mi
         - name: sabnzbd
           image: lscr.io/linuxserver/sabnzbd:latest
           imagePullPolicy: IfNotPresent
