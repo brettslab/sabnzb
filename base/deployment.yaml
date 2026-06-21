@@ -29,6 +29,13 @@ spec:
             capabilities:
               add:
                 - NET_ADMIN
+          lifecycle:
+            postStart:
+              exec:
+                command:
+                  - sh
+                  - -c
+                  - "(ip rule del table 51820; ip -6 rule del table 51820) || true"
           envFrom:
             - configMapRef:
                 name: sabnzbd-gluetun-config
@@ -56,10 +63,10 @@ spec:
           resources:
             requests:
               cpu: 50m
-              memory: 128Mi
+              memory: 256Mi
             limits:
               cpu: 500m
-              memory: 512Mi
+              memory: 1Gi
         - name: sabnzbd
           image: lscr.io/linuxserver/sabnzbd:latest
           imagePullPolicy: IfNotPresent
