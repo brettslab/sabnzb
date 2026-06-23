@@ -6,7 +6,7 @@ metadata:
 data:
   VPN_SERVICE_PROVIDER: windscribe
   VPN_TYPE: wireguard
-  WIREGUARD_IMPLEMENTATION: userspace
+  WIREGUARD_IMPLEMENTATION: auto
   WIREGUARD_ALLOWED_IPS: 0.0.0.0/0
   SERVER_REGIONS: Australia
   SERVER_CITIES: Brisbane
